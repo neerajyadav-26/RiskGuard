@@ -1,0 +1,33 @@
+# Python
+venv/
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Environment variables
+.env
+.env.*
+
+# Node
+node_modules/
+frontend/node_modules/
+
+# Frontend build
+frontend/dist/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Large datasets and generated data
+data/*.csv
+data/*.parquet
+
+# Old / oversized model artifacts
+models/ibm_fraud_model.pkl
+models/ibm_fraud_model_exp2.pkl
+models/ibm_fraud_model_profile.pkl
+models/ibm_fraud_model_v2.pkl
