@@ -53,12 +53,59 @@ function App() {
     setFeatures(updated);
   };
 
+  /*
+   * Verified RiskGuard V4 fraud demo transaction.
+   *
+   * Source:
+   * Exact transaction from ibm_profile_test_v4.parquet
+   *
+   * Expected previously validated result:
+   * approximately 98.50% CRITICAL
+   */
   const loadDemoTransactions = () => {
     setMode("demo");
     setResult(null);
-    setError(
-      "V4 demo transactions will be connected next. Please use Manual Entry for now."
-    );
+    setError("");
+
+    const fraudDemo = [
+      "436.44",       // 0  Amount
+      "436.44",       // 1  Amount (Absolute)
+      "16",           // 2  Transaction Hour
+      "4",            // 3  Day of Week
+      "29.0",         // 4  Time Since Previous Transaction
+      "32.522981",    // 5  Historical Average Amount
+      "13.415309",    // 6  Amount Ratio to History
+      "0",            // 7  Transactions Last 10 min
+      "1",            // 8  Transactions Last 1 hour
+      "5",            // 9  Transactions Last 24 hours
+      "85",            // 10 Customer Age
+      "695",           // 11 FICO Score
+      "7",             // 12 Number of Credit Cards
+      "25066",         // 13 Yearly Income
+      "424",           // 14 Total Debt
+      "0.016915",      // 15 Debt-to-Income Ratio
+      "1",             // 16 Cards Issued
+      "14939",         // 17 Credit Limit
+      "0.029215",      // 18 Amount-to-Credit-Limit Ratio
+      "0.017412",      // 19 Amount-to-Income Ratio
+      "0",             // 20 Location Changed
+      "19898",         // 21 Customer Previous Transactions
+      "55",             // 22 Customer Previous Fraud
+      "0.002764",      // 23 Customer Historical Fraud Rate
+      "104",            // 24 Card Previous Transactions
+      "14",             // 25 Card Previous Fraud
+      "0.134615",      // 26 Card Historical Fraud Rate
+      "644",            // 27 MCC Previous Transactions
+      "52",             // 28 MCC Previous Fraud
+      "0.080745",      // 29 MCC Historical Fraud Rate
+      "debit",          // 30 Transaction Direction
+      "Mastercard",     // 31 Card Brand
+      "Debit",          // 32 Card Type
+      "True",           // 33 Card Has Chip
+      "3006",           // 34 Merchant Category Code (MCC)
+    ];
+
+    setFeatures(fraudDemo);
   };
 
   const startManualTransaction = () => {
@@ -455,15 +502,17 @@ function App() {
 
               <p>
                 {mode === "demo"
-                  ? "V4 demo transactions will be connected next. Please use Manual Entry for now."
+                  ? "A verified RiskGuard V4 fraud transaction has been pre-filled for demonstration."
                   : "Enter the transaction, customer, card, merchant, and historical behavioral features required by RiskGuard V4."}
               </p>
             </div>
 
             <span>
-              {features.filter(
-                (value) => value !== ""
-              ).length}
+              {
+                features.filter(
+                  (value) => value !== ""
+                ).length
+              }
               /35 fields
             </span>
           </div>
@@ -625,9 +674,11 @@ function App() {
                 </span>
 
                 <strong>
-                  {features.filter(
-                    (value) => value !== ""
-                  ).length}{" "}
+                  {
+                    features.filter(
+                      (value) => value !== ""
+                    ).length
+                  }{" "}
                   / 35
                 </strong>
               </div>
@@ -676,12 +727,12 @@ function App() {
                 </div>
 
                 <div className="risk-scale">
- 		 <span>0%</span>
- 		 <span>20%</span>
- 		 <span>50%</span>
-		  <span>80%</span>
- 		 <span>100%</span>
-		</div>
+                  <span>0%</span>
+                  <span>20%</span>
+                  <span>50%</span>
+                  <span>80%</span>
+                  <span>100%</span>
+                </div>
 
                 <div className="risk-labels">
                   <span className="low-label">
@@ -710,10 +761,10 @@ function App() {
                   MODEL DECISION
                 </span>
 
-               <strong>
-               {result.risk_level === "LOW"
-               ? "LOW FRAUD RISK"
-                : `${result.risk_level} FRAUD RISK`}
+                <strong>
+                  {result.risk_level === "LOW"
+                    ? "LOW FRAUD RISK"
+                    : `${result.risk_level} FRAUD RISK`}
                 </strong>
 
                 <small>
@@ -909,8 +960,7 @@ function App() {
                   transaction as{" "}
                   <strong>
                     {result.risk_level}
-                  </strong>
-                  .
+                  </strong>.
                 </p>
 
                 <p>
